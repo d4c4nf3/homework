@@ -74,6 +74,17 @@ class AccountServiceTest {
     }
 
     @Test
+    void whenWithdrawalAmountIsNegativeShouldThrowException() {
+        BigDecimal startingAmount = new BigDecimal(100);
+        BigDecimal withdrawal = new BigDecimal(-50);
+
+        Account account = accountService.createAccount("account1", startingAmount);
+        assertThatThrownBy(() -> accountService.makeWithdrawal(account.getId(), withdrawal))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Cannot make negative withdrawal");
+    }
+
+    @Test
     void shouldTransfer() {
         BigDecimal startingAmount1 = new BigDecimal(100);
         BigDecimal startingAmount2 = new BigDecimal(200);
@@ -96,5 +107,17 @@ class AccountServiceTest {
         assertThatThrownBy(() -> accountService.transfer(accountFrom.getId(), accountTo.getId(), amount))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Insufficient funds");
+    }
+
+    @Test
+    void whenTransferAmountIsNegativeShouldThrowException() {
+        BigDecimal startingAmount1 = new BigDecimal(100);
+        BigDecimal amount = new BigDecimal(-50);
+
+        Account accountFrom = accountService.createAccount("account1", startingAmount1);
+        Account accountTo = accountService.createAccount("account2", new BigDecimal(0));
+        assertThatThrownBy(() -> accountService.transfer(accountFrom.getId(), accountTo.getId(), amount))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Cannot transfer negative amount");
     }
 }

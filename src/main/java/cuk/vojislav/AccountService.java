@@ -29,6 +29,9 @@ public class AccountService {
     }
 
     public synchronized Account makeWithdrawal(long accountId, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Cannot make negative withdrawal");
+        }
         Account account = accountRepository.findById(accountId).orElseThrow();
         if (account.getBalance().compareTo(amount) < 0) {
             throw new IllegalStateException("Insufficient funds");
@@ -38,6 +41,9 @@ public class AccountService {
     }
 
     public synchronized void transfer(long accountIdFrom, long accountIdTo, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Cannot transfer negative amount");
+        }
         Account accountFrom = accountRepository.findById(accountIdFrom).orElseThrow();
         Account accountTo = accountRepository.findById(accountIdTo).orElseThrow();
         if (accountFrom.getBalance().compareTo(amount) < 0) {
