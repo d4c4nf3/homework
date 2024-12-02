@@ -44,10 +44,10 @@ class AccountServiceTest {
     @Test
     void whenDepositAmountIsNegativeShouldThrowException() {
         BigDecimal startingAmount = new BigDecimal(100);
-        BigDecimal deposit = new BigDecimal(-50);
+        BigDecimal negativeDeposit = new BigDecimal(-50);
 
         Account account = accountService.createAccount("account1", startingAmount);
-        assertThatThrownBy(() -> accountService.makeDeposit(account.getId(), deposit))
+        assertThatThrownBy(() -> accountService.makeDeposit(account.getId(), negativeDeposit))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Cannot make negative deposit");
     }
@@ -76,10 +76,10 @@ class AccountServiceTest {
     @Test
     void whenWithdrawalAmountIsNegativeShouldThrowException() {
         BigDecimal startingAmount = new BigDecimal(100);
-        BigDecimal withdrawal = new BigDecimal(-50);
+        BigDecimal negativeWithdrawalAmount = new BigDecimal(-50);
 
         Account account = accountService.createAccount("account1", startingAmount);
-        assertThatThrownBy(() -> accountService.makeWithdrawal(account.getId(), withdrawal))
+        assertThatThrownBy(() -> accountService.makeWithdrawal(account.getId(), negativeWithdrawalAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Cannot make negative withdrawal");
     }
@@ -112,11 +112,11 @@ class AccountServiceTest {
     @Test
     void whenTransferAmountIsNegativeShouldThrowException() {
         BigDecimal startingAmount1 = new BigDecimal(100);
-        BigDecimal amount = new BigDecimal(-50);
+        BigDecimal negativeAmount = new BigDecimal(-50);
 
         Account accountFrom = accountService.createAccount("account1", startingAmount1);
         Account accountTo = accountService.createAccount("account2", new BigDecimal(0));
-        assertThatThrownBy(() -> accountService.transfer(accountFrom.getId(), accountTo.getId(), amount))
+        assertThatThrownBy(() -> accountService.transfer(accountFrom.getId(), accountTo.getId(), negativeAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Cannot transfer negative amount");
     }
