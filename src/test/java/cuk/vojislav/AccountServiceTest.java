@@ -21,7 +21,7 @@ class AccountServiceTest {
 
     /**
      * If we want to run tests concurrently, this test could fail because other test might create new account while this
-     * test is being executed.
+     * test is being executed. For that, we need to synchronize account creation.
      */
     @Test
     void shouldCreateAccountsWithAutoIncrementedId() {

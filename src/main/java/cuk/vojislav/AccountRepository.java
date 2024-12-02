@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AccountRepository {
 
     private final Map<Long, Account> accounts = new HashMap<>();
 
     private long sequence = 0;
+
     public Optional<Account> findById(Long id) {
         return Optional.ofNullable(accounts.get(id));
     }
