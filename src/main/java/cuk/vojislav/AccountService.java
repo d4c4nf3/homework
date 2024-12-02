@@ -20,6 +20,9 @@ public class AccountService {
      * distributed transactions, saga pattern or distributed locking.
      */
     public synchronized Account makeDeposit(long accountId, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Cannot make negative deposit");
+        }
         Account account = accountRepository.findById(accountId).orElseThrow();
         account.setBalance(account.getBalance().add(amount));
         return accountRepository.save(account);

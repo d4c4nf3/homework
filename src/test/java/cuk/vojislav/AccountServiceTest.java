@@ -42,6 +42,17 @@ class AccountServiceTest {
     }
 
     @Test
+    void whenDepositAmountIsNegativeShouldThrowException() {
+        BigDecimal startingAmount = new BigDecimal(100);
+        BigDecimal deposit = new BigDecimal(-50);
+
+        Account account = accountService.createAccount("account1", startingAmount);
+        assertThatThrownBy(() -> accountService.makeDeposit(account.getId(), deposit))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Cannot make negative deposit");
+    }
+
+    @Test
     void shouldMakeWithdrawal() {
         BigDecimal startingAmount = new BigDecimal(100);
         BigDecimal withdrawal = new BigDecimal(50);

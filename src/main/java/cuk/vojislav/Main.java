@@ -13,5 +13,6 @@ public class Main {
         accountService.transfer(account1.getId(), account2.getId(), new BigDecimal(25));
         accountService.makeWithdrawal(account2.getId(), new BigDecimal(50));
         System.out.println(accountService.balance(account2.getId()));
+        System.out.println(accountService.balance(account1.getId()));
     }
 }
